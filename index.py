@@ -33,7 +33,9 @@ for imagePath in glob.glob(args["dataset"] + "/*.png"):
 
 	# write the features to file
 	features = [str(f) for f in features]
-	output.write("%s,%s\n" % (imageID, ",".join(features)))
+	img = imageID.split("\\")[1].split(".")[0]
+	print(img)
+	output.write("%s,%s\n" % (img, ",".join(features)))
 
 # close the index file
 output.close()

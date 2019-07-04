@@ -1,3 +1,28 @@
+"""
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+MIT License
+
+Copyright (c) 2019 Chandra Shekar Reddy
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+"""
 import cv2
 import numpy as np
 from pyimagesearch.colordescriptor import ColorDescriptor
@@ -76,14 +101,15 @@ while True :
 					cd = ColorDescriptor((8, 12, 3))
 					query = out
 					features = cd.describe(query)
-					searcher = Searcher("index.csv")
-					results = searcher.search(features)
+					result = Searcher.k_nearest_neighbor(features)
+					# searcher = Searcher("index.csv")
+					# results = searcher.search(features)
 					
 					# myVid = cv2.VideoCapture("videos_rep/"+results[0][1].split('.')[0]+".mp4")
-					new = results[0][1].split('.')[0].split('\\')[1]+".mp4"
+					new = result+".mp4"
 					if(opend_video.video_name != "videos_rep/"+new):
 						print(new)
-						opend_video.video_name = "videos_rep/"+results[0][1].split('.')[0].split('\\')[1]+".mp4"
+						opend_video.video_name = "videos_rep/" + result + ".mp4"
 						is_recognised = True
 						i = 1
 					if i == 0 :
@@ -92,7 +118,7 @@ while True :
 					box = cv2.boxPoints(rect)
 					box = np.int0(box)
 
-					cv2.drawContours( rgb, [box], -1, ( 255, 0, 0 ), 2 )
+					cv2.drawContours( rgb, [box], -1, ( 0, 0, 0 ), 2 )
 					
 					epsilon = cv2.arcLength(box,True)
 					box_approx = cv2.approxPolyDP(box,0.1 * epsilon, True)

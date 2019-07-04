@@ -2,6 +2,8 @@
 import numpy as np
 import csv
 
+from collections import Counter
+
 class Searcher:
 	def __init__(self, indexPath):
 		# store our index path
@@ -48,3 +50,30 @@ class Searcher:
 
 		# return the chi-squared distance
 		return d
+
+	def k_nearest_neighbor(predict):
+		k = 3
+		# if len(data) >= k:
+		# 	warnings.warn("K is set to a value less than total groups")
+
+		k_distances = []
+
+		# for group in data:
+		# 	for n_features in data[group]:
+		# 		eucledian_distance = np.linalg.norm(np.array(n_features) - np.array(predict))
+		# 		k_distances.append([eucledian_distance, group])
+
+		with open("index.csv") as f:
+			data = csv.reader(f)
+			for row in data:
+				n_features = [float(i) for i in row[1:]]
+				index = row[0]
+				eucledian_distance = np.linalg.norm(np.array(n_features) - np.array(predict))
+				k_distances.append([eucledian_distance, index])
+
+
+		votes = [i[1] for i in sorted(k_distances)[:k]]
+
+		vote_res = Counter(votes).most_common(1)[0][0]
+
+		return vote_res
