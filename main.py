@@ -27,6 +27,7 @@ import cv2
 import numpy as np
 from pyimagesearch.colordescriptor import ColorDescriptor
 from pyimagesearch.searcher import Searcher
+import time
 
 IS_FOUND = 0
 
@@ -106,10 +107,10 @@ while True :
 					# results = searcher.search(features)
 					
 					# myVid = cv2.VideoCapture("videos_rep/"+results[0][1].split('.')[0]+".mp4")
-					new = result+".mp4"
+					new = result.split("-")[0]+".mp4"
 					if(opend_video.video_name != "videos_rep/"+new):
 						print(new)
-						opend_video.video_name = "videos_rep/" + result + ".mp4"
+						opend_video.video_name = "videos_rep/" + result.split("-")[0] + ".mp4"
 						is_recognised = True
 						i = 1
 					if i == 0 :
@@ -170,9 +171,7 @@ while True :
 
 		if cv2.waitKey(99) & 0xFF == ord('c') :
 			current = str( time.time() )
-			cv2.imwrite( 'ocvi_' + current + '_edges.jpg', edges )
-			cv2.imwrite( 'ocvi_' + current + '_gray.jpg', gray )
-			cv2.imwrite( 'ocvi_' + current + '_org.jpg', rgb )
+			cv2.imwrite( 'ocvi_' + current + '_edges.jpg', out )
 			print("Pictures saved")
 
 	else :
